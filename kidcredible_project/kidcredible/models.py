@@ -20,7 +20,7 @@ class Product(models.Model):
     rating = models.CharField(max_length=250, default='no rating')
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Review(models.Model):
