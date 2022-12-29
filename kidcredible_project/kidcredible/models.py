@@ -31,7 +31,7 @@ class Review(models.Model):
     name = models.CharField(max_length=50)
     title = models.CharField(max_length=50)
     body = models.CharField(max_length=250)
-    rating = models.CharField(max_length=50)
+    rating = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
