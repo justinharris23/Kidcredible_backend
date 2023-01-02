@@ -17,7 +17,7 @@ class Product(models.Model):
     type = models.CharField(max_length=50, default='no type')
     description = models.CharField(max_length=250, default='no description')
     image = models.CharField(max_length=50, default='no image')
-    rating = models.CharField(max_length=250, default='no rating')
+    rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
 
     def __str__(self):
         return self.name
@@ -25,13 +25,13 @@ class Product(models.Model):
 
 class Review(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='reviews')
+        User, on_delete=models.CASCADE, related_name='reviews', null=True)
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name='reviews')
-    name = models.CharField(max_length=50)
-    title = models.CharField(max_length=50)
-    body = models.CharField(max_length=250)
-    rating = models.IntegerField(default=1)
+        Product, on_delete=models.CASCADE, related_name='reviews', null=True)
+    name = models.CharField(max_length=50, null=True)
+    title = models.CharField(max_length=50, null=True)
+    body = models.CharField(max_length=250, null=True)
+    rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
 
     def __str__(self):
         return self.name

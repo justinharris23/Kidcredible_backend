@@ -2,18 +2,6 @@ from rest_framework import serializers
 from .models import User, Product, Review
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    reviews = serializers.HyperlinkedRelatedField(
-        view_name='review_detail',
-        many=True,
-        read_only=True
-    )
-
-    class Meta:
-        model = User
-        fields = ('id', 'name', 'email', 'password', 'reviews')
-
-
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     users = serializers.HyperlinkedRelatedField(
         view_name='user_detail',
@@ -26,7 +14,8 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('id', 'name', 'body', 'users', 'rating', 'products')
+        fields = ('id', 'name', 'body', 'users',
+                  'rating', 'product', 'products')
 
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
@@ -35,7 +24,30 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True
     )
 
+    users = serializers.HyperlinkedRelatedField(
+        view_name='user_detail',
+        many=True,
+        read_only=True
+    )
+
     class Meta:
         model = Product
         fields = ('id', 'name', 'type', 'description',
-                  'image', 'rating', 'reviews')
+                  'image', 'rating', 'reviews', 'users')
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    reviews = serializers.HyperlinkedRelatedField(
+        view_name='review_detail',
+        many=True,
+        read_only=True
+    )
+
+    products = ProductSerializer(
+        many=True,
+        read_only=True
+    )
+
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'email', 'password', 'reviews')
